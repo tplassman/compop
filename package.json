@@ -1,0 +1,24 @@
+{
+    "name": "compop",
+    "version": "0.0.1",
+    "description": "JavaScript function to pop component configuration off a global stack and construct corresponding class instances",
+    "main": "dist/index.js",
+    "scripts": {
+        "build": "npx babel src/*.js --out-dir dist",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:tplassman/compop.git"
+    },
+    "author": {
+        "name": "Trevor Plassman",
+        "url": "https://www.plassmans.com/trevor"
+    },
+    "license": "ISC",
+    "devDependencies": {
+        "@babel/cli": "^7.6.0",
+        "@babel/core": "^7.6.0",
+        "@babel/preset-env": "^7.6.0"
+    }
+}
