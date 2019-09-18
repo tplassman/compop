@@ -26,6 +26,7 @@ Note: the "YOUR_SITE_GLOBAL" key is a convention to encapsulate your components 
 
         ...Your HTML components...
 
+        <script src="/scripts/main.js"></script>
     </body>
 </html>
 ```
@@ -78,6 +79,8 @@ export default class {
 ```
 
 ```javascript
+// src/scripts/main.js
+
 import pop from 'compop'
 
 import ComponentClass from './components/component-handle.js';
