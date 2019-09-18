@@ -41,7 +41,7 @@ Note: the "YOUR_SITE_GLOBAL" key is a convention to encapsulate your components 
         window[YOUR_SITE_GLOBAL].components.push({
             handle: 'component-handle',
             id: 'unique-identifier',
-            ...<any other variables for your component class>
+            // ...any other variables for your component class
         });
     </script>
 </div>
@@ -55,7 +55,7 @@ Note: the "YOUR_SITE_GLOBAL" key is a convention to encapsulate your components 
 export default class {
     constructor({
         id,
-        ...<any other variables for your component class>
+        // ...any other variables for your component class
         state,
         actions,
         refresh,
