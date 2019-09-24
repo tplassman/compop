@@ -89,7 +89,7 @@ const classMap = {
     'component-handle': ComponentClass
 };
 
-const action = {
+const actions = {
     myComponentCustomAction: 'my-component-custom-action',
 }
 
