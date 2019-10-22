@@ -108,3 +108,4 @@ function handleDOMConentLoaded() {
 // Attach event listener
 document.addEventListener('DOMContentLoaded', handleDOMConentLoaded);
 ```
+
