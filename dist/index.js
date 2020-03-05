@@ -12,6 +12,31 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 /**
+ * Emit event - wrapper around CustomEvent API
+ * @param {string} handle - a string representing the name of the event
+ * @param {object} payload - data to be passed via the event to listening functions
+ * @param {EventTarget} target - target to emit/broadcast event to
+ */
+function emit(handle, payload) {
+  var target = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : window;
+  var event = new CustomEvent(eventHandle, {
+    detail: payload
+  });
+  target.dispatchEvent(event);
+}
+/**
+ * Listen for custom event and execute callback on EventTarget
+ * @param {string} handle - a string representing the name of the event
+ * @param {function} cb - function to call w/ event argument when event is emitted
+ * @param {EventTarget} target - target to attach listener to
+ */
+
+
+function on(handle, cb) {
+  var target = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : window;
+  target.addEventListener(handle, cb);
+}
+/**
  * Pop off and instantiate any components pushed onto global components array
  * @rparam {object} scaffold - Case scaffold where components and state are initialized by markup
  * @rparam {object} classMap - Object mapping component handles to corresponding classes
@@ -19,6 +44,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * @rparam {Function} cb - Callback function once all components have been initialized
  * @return {void}
  */
+
+
 function pop(_ref) {
   var _ref$scaffold = _ref.scaffold,
       scaffold = _ref$scaffold === void 0 ? {} : _ref$scaffold,
@@ -28,11 +55,19 @@ function pop(_ref) {
       actions = _ref$actions === void 0 ? {} : _ref$actions,
       _ref$cb = _ref.cb,
       cb = _ref$cb === void 0 ? null : _ref$cb;
+  // Get order of instantiation from storage key in scaffold
+  var _scaffold$storage = scaffold.storage,
+      storage = _scaffold$storage === void 0 ? 'queue' : _scaffold$storage; // Create events object to wrap methods to send and receive events (messages) between components
 
+  var events = {
+    emit: emit,
+    on: on
+  };
   /**
    * Function to allow component classes to repop components inside dynamically set markup
    * @param {Element}
    */
+
   function refresh() {
     var container = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
@@ -50,8 +85,7 @@ function pop(_ref) {
 
     scripts.forEach(function (script) {
       eval(script.textContent);
-    }); // eslint-disable-line no-eval
-    // Instantiate components
+    }); // Instantiate components
 
     pop({
       scaffold: scaffold,
@@ -62,20 +96,25 @@ function pop(_ref) {
   } // Pop component configs from global array and construct instances
 
 
-  while (scaffold.components.length > 0) {
+  while ((scaffold.components || []).length > 0) {
     var _scaffold$components = scaffold.components,
         components = _scaffold$components === void 0 ? [] : _scaffold$components,
         _scaffold$state = scaffold.state,
         state = _scaffold$state === void 0 ? {} : _scaffold$state;
-    var config = components.shift();
+    var config = storage === 'stack' ? components.pop() : components.shift();
     var Class = classMap[config.handle];
 
     if (typeof Class === 'function') {
-      new Class(_objectSpread({}, config, {
-        state: state,
-        actions: actions,
-        refresh: refresh
-      })); // eslint-disable-line no-new
+      try {
+        new Class(_objectSpread({}, config, {
+          state: state,
+          actions: actions,
+          events: events,
+          refresh: refresh
+        }));
+      } catch (error) {
+        console.error(error);
+      }
     }
   }
 

@@ -1,6 +1,6 @@
 # ComPop
 
-JavaScript function to pop component configuration off a global stack and construct corresponding class instances
+JavaScript function to pop component configuration off a global storage array (stack || queue\*) and construct corresponding class instances
 
 ## Installation
 
@@ -10,7 +10,7 @@ npm install --save compop
 
 ## Usage
 
-1. Scaffold out the global components array and state object in your HTML layout file.
+1. Scaffold out the global components array and optional state object and storage mechanism in your HTML layout file.
 Note: the "YOUR_SITE_GLOBAL" key is a convention to encapsulate your components from other scripts in the `window`
 
 ```html
@@ -19,9 +19,8 @@ Note: the "YOUR_SITE_GLOBAL" key is a convention to encapsulate your components 
         <title>Your Site</title>
     </head>
     <body>
-
         <script>
-            window[YOUR_SITE_GLOBAL] = { components: [], state: {} };
+            window['YOUR_SITE_GLOBAL'] = { components: [], state: {} , storage: 'queue' };
         </script>
 
         ...Your HTML components...
@@ -31,7 +30,7 @@ Note: the "YOUR_SITE_GLOBAL" key is a convention to encapsulate your components 
 </html>
 ```
 
-2. Add HTML components to your site and push a component config onto the glbal array.
+2. Add HTML components to your site - in any templating language - and push a component config onto the glbal array.
 
 ```html
 <div id="unique-identifier" class="component-handle">
@@ -39,9 +38,9 @@ Note: the "YOUR_SITE_GLOBAL" key is a convention to encapsulate your components 
     ...Your component markup...
 
     <script>
-        window[YOUR_SITE_GLOBAL].components.push({
-            handle: 'component-handle',
-            id: 'unique-identifier',
+        window['YOUR_SITE_GLOBAL'].components.push({
+            handle: 'component-handle', // Required to match your component class in the classMap
+            id: 'unique-identifier', // Recommended to encapsulate scope for your component class
             // ...any other variables for your component class
         });
     </script>
@@ -59,6 +58,7 @@ export default class {
         // ...any other variables for your component class
         state,
         actions,
+        events,
         refresh,
     }) {
         // Define elements and variables needed by the component
@@ -70,6 +70,10 @@ export default class {
             const { customData } = e.detail;
 
             // Do something with custom data in response to the event
+            ...
+
+            // Communicate that something has happened
+            events.emit(actions.someThing, { time: + new Date() });
         }
 
         // Attach any event listeners
@@ -91,6 +95,7 @@ const classMap = {
 
 const actions = {
     myComponentCustomAction: 'my-component-custom-action',
+    someThing: 'SOME_THING'
 }
 
 // Construct components on DOM content loaded
@@ -108,4 +113,3 @@ function handleDOMConentLoaded() {
 // Attach event listener
 document.addEventListener('DOMContentLoaded', handleDOMConentLoaded);
 ```
-
