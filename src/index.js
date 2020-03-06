@@ -5,7 +5,7 @@
  * @param {EventTarget} target - target to emit/broadcast event to
  */
 function emit(handle, payload, target = window) {
-    const event = new CustomEvent(eventHandle, { detail: payload });
+    const event = new CustomEvent(handle, { detail: payload });
 
     target.dispatchEvent(event);
 }

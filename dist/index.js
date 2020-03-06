@@ -19,7 +19,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  */
 function emit(handle, payload) {
   var target = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : window;
-  var event = new CustomEvent(eventHandle, {
+  var event = new CustomEvent(handle, {
     detail: payload
   });
   target.dispatchEvent(event);
