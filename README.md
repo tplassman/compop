@@ -1,6 +1,8 @@
 # ComPop
 
-JavaScript function to pop component configuration off a global storage array (stack || queue\*) and construct corresponding class instances
+Not your templating language.
+
+This framework exposes a function to pop component configuration off a global storage array (stack || queue\*) and construct a corresponding class instance for each configuration in the array. It also aims to promote encapsulation for components and utilizes a thin wrapper around [CustomEvent](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent) to provide a mechanism for communication between isolated components.
 
 ## Installation
 
@@ -14,6 +16,8 @@ npm install --save compop
 Note: the "YOUR_SITE_GLOBAL" key is a convention to encapsulate your components from other scripts in the `window`
 
 ```html
+<!-- templates/layout.html -->
+
 <html>
     <head>
         <title>Your Site</title>
@@ -33,6 +37,8 @@ Note: the "YOUR_SITE_GLOBAL" key is a convention to encapsulate your components 
 2. Add HTML components to your site - in any templating language - and push a component config onto the glbal array.
 
 ```html
+<!-- templates/components/component-handle.html -->
+
 <div id="unique-identifier" class="component-handle">
 
     ...Your component markup...
