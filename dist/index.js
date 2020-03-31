@@ -76,12 +76,7 @@ function pop(_ref) {
     } // Get all scripts from markup set in container
 
 
-    var scripts = container.querySelectorAll('script');
-
-    if (scripts.length === 0) {
-      return;
-    } // Evaluate scripts returned from component markup if for new component
-
+    var scripts = container.querySelectorAll('script'); // Evaluate scripts returned from component markup if for new component
 
     scripts.forEach(function (script) {
       eval(script.textContent);
