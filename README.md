@@ -1,6 +1,6 @@
 # ComPop
 
-Not your templating language.
+A JavaScript framework for server side markup.
 
 This framework exposes a function to pop component configuration off a global storage array (stack || queue\*) and construct a corresponding class instance for each configuration in the array. It also aims to promote encapsulation for components and utilizes a thin wrapper around [CustomEvent](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent) to provide a mechanism for communication between isolated components.
 
