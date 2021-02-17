@@ -114,7 +114,10 @@ function pop(_ref) {
   }
 
   if (cb) {
-    cb();
+    cb({
+      events: events,
+      refresh: refresh
+    });
   }
 }
 

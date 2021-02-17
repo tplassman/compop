@@ -108,7 +108,7 @@ const actions = {
 function handleDOMConentLoaded() {
     const scaffold = window[SITE_HANDLE];
 
-    function cb() {
+    function cb({ events, refresh }) {
         // Do something after components initialize
     }
 

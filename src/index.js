@@ -81,7 +81,7 @@ function pop({
     }
 
     if (cb) {
-        cb();
+        cb({ events, refresh });
     }
 }
 
