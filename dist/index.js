@@ -95,14 +95,15 @@ function pop(_ref) {
     var _scaffold$components = scaffold.components,
         components = _scaffold$components === void 0 ? [] : _scaffold$components,
         _scaffold$state = scaffold.state,
-        state = _scaffold$state === void 0 ? {} : _scaffold$state;
+        _state = _scaffold$state === void 0 ? {} : _scaffold$state;
+
     var config = storage === 'stack' ? components.pop() : components.shift();
     var Class = classMap[config.handle];
 
     if (typeof Class === 'function') {
       try {
         new Class(_objectSpread({}, config, {
-          state: state,
+          state: _state,
           actions: actions,
           events: events,
           refresh: refresh
@@ -115,6 +116,7 @@ function pop(_ref) {
 
   if (cb) {
     cb({
+      state: state,
       events: events,
       refresh: refresh
     });
