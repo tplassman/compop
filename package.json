@@ -1,6 +1,6 @@
 {
     "name": "compop",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "description": "JavaScript function to pop component configuration off a global stack and construct corresponding class instances",
     "main": "dist/index.js",
     "scripts": {

@@ -62,7 +62,9 @@ function pop(_ref) {
   var events = {
     emit: emit,
     on: on
-  };
+  }; // Keep track of global state to pass back to callback function
+
+  var finalState = {};
   /**
    * Function to allow component classes to repop components inside dynamically set markup
    * @param {Element}
@@ -95,19 +97,19 @@ function pop(_ref) {
     var _scaffold$components = scaffold.components,
         components = _scaffold$components === void 0 ? [] : _scaffold$components,
         _scaffold$state = scaffold.state,
-        _state = _scaffold$state === void 0 ? {} : _scaffold$state;
-
+        state = _scaffold$state === void 0 ? {} : _scaffold$state;
     var config = storage === 'stack' ? components.pop() : components.shift();
     var Class = classMap[config.handle];
 
     if (typeof Class === 'function') {
       try {
         new Class(_objectSpread({}, config, {
-          state: _state,
+          state: state,
           actions: actions,
           events: events,
           refresh: refresh
         }));
+        finalState = _objectSpread({}, finalState, {}, state);
       } catch (error) {
         console.error(error);
       }
@@ -116,7 +118,7 @@ function pop(_ref) {
 
   if (cb) {
     cb({
-      state: state,
+      state: finalState,
       events: events,
       refresh: refresh
     });

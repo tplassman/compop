@@ -39,6 +39,9 @@ function pop({
     // Create events object to wrap methods to send and receive events (messages) between components
     const events = { emit, on };
 
+    // Keep track of global state to pass back to callback function
+    let finalState = {};
+
     /**
      * Function to allow component classes to repop components inside dynamically set markup
      * @param {Element}
@@ -73,15 +76,16 @@ function pop({
                     events,
                     refresh,
                 });
-            }
-            catch(error) {
+
+                finalState = { ...finalState, ...state };
+            } catch(error) {
                 console.error(error);
             }
         }
     }
 
     if (cb) {
-        cb({ state, events, refresh });
+        cb({ state: finalState, events, refresh });
     }
 }
 
